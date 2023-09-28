@@ -1,12 +1,12 @@
 const newPost = async (event) => {
   event.preventDefault();
 
-  const tittle = document.querySelector('#email-login').value.trim();
-  const description = document.querySelector('#password-login').value.trim();
+  const tittle = document.querySelector('#tittle').value;
+  const description = document.querySelector('#description').value;
 
-  
+  console.log(description);
   if (tittle && description) {
-    const response = await fetch('/newPost', {
+    const response = await fetch('/dashboard/savepost', {
       method: 'POST',
       body: JSON.stringify({ tittle, description }),
       headers: { 'Content-Type': 'application/json' },
@@ -22,5 +22,5 @@ const newPost = async (event) => {
 
 
 document
-  .querySelector('.login-form')
-  .addEventListener('submit', loginFormHandler);
+  .querySelector('#newPost-form')
+  .addEventListener('submit', newPost);
