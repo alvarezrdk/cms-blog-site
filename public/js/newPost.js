@@ -6,7 +6,7 @@ const newPost = async (event) => {
 
   console.log(description);
   if (tittle && description) {
-    const response = await fetch('/dashboard/savepost', {
+    const response = await fetch('/savepost', {
       method: 'POST',
       body: JSON.stringify({ tittle, description }),
       headers: { 'Content-Type': 'application/json' },
@@ -22,5 +22,5 @@ const newPost = async (event) => {
 
 
 document
-  .querySelector('#newPost-form')
+  .querySelector('.newPost-form')
   .addEventListener('submit', newPost);
