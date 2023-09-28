@@ -13,6 +13,7 @@ router.post('/', async (req, res) => {
     // Set up sessions with a 'loggedIn' variable set to `true`
     req.session.save(() => {
       req.session.loggedIn = true;
+      req.session.username = dbUserData.dataValues.username;
 
       res.status(200).json(dbUserData);
     });
@@ -24,12 +25,16 @@ router.post('/', async (req, res) => {
 
 // Login
 router.post('/login', async (req, res) => {
+  
   try {
     const dbUserData = await User.findOne({
       where: {
         email: req.body.email,
       },
     });
+    //console.log(dbUserData.dataValues.username);
+    req.session.username = dbUserData.dataValues.username;
+    //console.log(req.session.username);
 
     if (!dbUserData) {
       res
@@ -50,7 +55,7 @@ router.post('/login', async (req, res) => {
     // Once the user successfully logs in, set up the sessions variable 'loggedIn'
     req.session.save(() => {
       req.session.loggedIn = true;
-
+      
       res
         .status(200)
         .json({ user: dbUserData, message: 'You are now logged in!' });
