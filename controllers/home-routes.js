@@ -1,8 +1,17 @@
 const router = require('express').Router();
 const { Post, Comments } = require('../models');
+const { dateFormat } = require('../utils/helpers');
+
+
+const formatDate = (date) => {
+  const options = { month: 'long', day: 'numeric', year: 'numeric'};
+  return new Intl.DateTimeFormat('en-US', options).format(date);
+};
+
 
 // GET all galleries for homepage
 router.get('/', async (req, res) => {
+  
   try {
     const dbPostData = await Post.findAll({
     });
@@ -85,14 +94,15 @@ router.post('/savepost', async (req, res) => {
   console.log(req.session.username);
   console.log(req.body.tittle)
 
-  const currentDate = new Date();
-  const dateString = currentDate.toString();
+  const date = new Date();
+  const formattedDate = formatDate(date);
+  
 
   try {
     const dbPostData = await Post.create({
       title: req.body.tittle,
       description: req.body.description,
-      posting_date: dateString,
+      posting_date: formattedDate,
       username: req.session.username
       })
 
